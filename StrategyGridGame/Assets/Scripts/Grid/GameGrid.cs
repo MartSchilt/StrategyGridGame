@@ -11,16 +11,9 @@ public class GameGrid : MonoBehaviour
     [SerializeField] private GameObject gridCellPrefab;
     private GameObject[,] gameGrid;
 
-    // Start is called before the first frame update
-    void Start()
+    public void OnAwake()
     {
         StartCoroutine(CreateGrid());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     /// <summary>
