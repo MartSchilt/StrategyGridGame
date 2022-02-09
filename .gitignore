@@ -2,13 +2,13 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-StrategyGridGame/[Ll]ibrary/
-StrategyGridGame/[Tt]emp/
-StrategyGridGame/[Oo]bj/
-StrategyGridGame/[Bb]uild/
-StrategyGridGame/[Bb]uilds/
-StrategyGridGame/[Ll]ogs/
-StrategyGridGame/[Mm]emoryCaptures/
+/StrategyGridGame/[Ll]ibrary/
+/StrategyGridGame/[Tt]emp/
+/StrategyGridGame/[Oo]bj/
+/StrategyGridGame/[Bb]uild/
+/StrategyGridGame/[Bb]uilds/
+/StrategyGridGame/[Ll]ogs/
+/StrategyGridGame/[Mm]emoryCaptures/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !StrategyGridGame/[Aa]ssets/**/*.meta
@@ -57,3 +57,5 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+
+StrategyGridGame/Library/
