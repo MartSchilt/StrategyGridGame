@@ -8,6 +8,10 @@ on:
 jobs:
   Unity_Test_Runner:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        projectPath:
+          - StrategyGridGame
     steps:
       # Checkout (without LFS)
       - name: Checkout repository
@@ -45,6 +49,7 @@ jobs:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+          projectPath: ${{ matrix.projectPath }}
 
       # Build
       - name: Build project
