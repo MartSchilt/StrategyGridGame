@@ -7,21 +7,9 @@ public class GridCell : MonoBehaviour
     private int posX, posY;
 
     // Saves a reference to the GameObject that gets placed on this cell
-    public GameObject objectInThisGrid = null;
+    public GridObject objectInThisGrid = null;
 
     public bool isOccupied = false;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void SetPosition(Vector2Int pos)
     {
@@ -38,11 +26,8 @@ public class GridCell : MonoBehaviour
     /// Logic when clicked on specific cell
     /// </summary>
     /// Could be changed to use children for certain cells
-    public void Click()
+    public void ToggleOccupation()
     {
-        // Works only for sprites
-        // GetComponentInChildren<SpriteRenderer>().material.color = Color.green;
-        GetComponentInChildren<MeshRenderer>().material.color = Color.green;
-        Debug.Log(isOccupied);
+        isOccupied = !isOccupied;
     }
 }
