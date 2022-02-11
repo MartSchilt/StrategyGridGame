@@ -48,7 +48,6 @@ public class GameGrid : MonoBehaviour
     public Vector2Int GetGridPosFromWorld(Vector3 worldPosition)
     {
         int x = Mathf.FloorToInt(worldPosition.x / gridSpaceSize);
-        // This is Z because the grid is built up from 0 0 and should be built in depth.
         int z = Mathf.FloorToInt(worldPosition.y / gridSpaceSize);
 
         x = Mathf.Clamp(x, 0, width);
@@ -63,5 +62,11 @@ public class GameGrid : MonoBehaviour
         float z = gridPos.y * gridSpaceSize;
 
         return new Vector3(x, 0, z);
+    }
+
+    public GridCell GetGridCellFromWorldPos(Vector3 worldPosition)
+    {
+        Vector2Int gridPos = GetGridPosFromWorld(worldPosition);
+        return gameGrid[gridPos.x, gridPos.y].GetComponent<GridCell>();
     }
 }

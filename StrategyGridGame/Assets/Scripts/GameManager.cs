@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public GameGrid gridPrefab;
-    private GameGrid gridInst;
+    public GameGrid gridInst { get; private set; }
 
     public InputManager inputManager;
 
@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager GetInstance()
     {
-        if (_instance is null)
+        if (_instance == null)
             Debug.LogError("GameManager is null");
 
         return _instance;
@@ -35,6 +35,6 @@ public class GameManager : MonoBehaviour
 
         //Assign the current game grid to the inputManager and let the user perform actions
         inputManager.SetGameGrid(gridInst);
-        inputManager.canMove = true;
+        inputManager.canMove = true; // This is set but never used?
     }
 }

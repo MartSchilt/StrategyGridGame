@@ -9,19 +9,37 @@ public class InputManager : MonoBehaviour
 
     [SerializeField] private LayerMask gridCellLayer;
 
-    public bool canMove = false;
+    public bool canMove { get; set; }
 
     void Update()
     {
         if (gameGrid)
         {
+            // Left mouse click
             if (Input.GetMouseButtonDown(0))
             {
                 GridCell hoveringCell = IsMouseOverAGridSpace();
 
                 if (hoveringCell)
                 {
-                    MoveUnit(hoveringCell, unitManager.currentlySelectedUnit);
+                    // Selecting units to move
+                    if (hoveringCell.objectInThisGrid is GameUnit)
+                    {
+                        unitManager.currentlySelectedUnit = (GameUnit)hoveringCell.objectInThisGrid;
+                    }
+                }
+            }
+
+            // Right mouse click
+            if (Input.GetMouseButtonDown(1))
+            {
+                GridCell hoveringCell = IsMouseOverAGridSpace();
+                if (hoveringCell)
+                {
+                    if (!hoveringCell.isOccupied)
+                    {
+                        MoveUnit(hoveringCell, unitManager.currentlySelectedUnit);
+                    }
                 }
             }
         }
@@ -37,8 +55,11 @@ public class InputManager : MonoBehaviour
 
     private void MoveUnit(GridCell cell, GameUnit unit)
     {
-        unitManager.moveUnit(cell, unit);
-        unit.previousGridPos?.ToggleOccupation();
+        if (unit != null)
+        {
+            unitManager.moveUnit(cell, unit);
+            unit.previousGridPos?.ToggleOccupation();
+        }
     }
 
     private GridCell IsMouseOverAGridSpace()
