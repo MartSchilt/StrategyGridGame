@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitManager : MonoBehaviour
@@ -33,7 +31,6 @@ public class UnitManager : MonoBehaviour
             //Idk, place them in the sky for now lol
             gameUnit.transform.position = new Vector3(0, 10000, 0);
         }
-        Debug.Log(gameUnits);
     }
 
     public void moveUnit(GridCell cell, GameUnit unit)

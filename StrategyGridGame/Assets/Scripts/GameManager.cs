@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,15 +10,12 @@ public class GameManager : MonoBehaviour
 
     private static GameManager _instance;
 
-    public static GameManager Instance
+    public static GameManager GetInstance()
     {
-        get
-        {
-            if (_instance is null)
-                Debug.LogError("GameManager is null");
+        if (_instance is null)
+            Debug.LogError("GameManager is null");
 
-            return _instance;
-        }
+        return _instance;
     }
 
     private void Awake()

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
@@ -20,7 +18,6 @@ public class InputManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 GridCell hoveringCell = IsMouseOverAGridSpace();
-                Debug.Log(hoveringCell);
 
                 if (hoveringCell)
                 {
@@ -41,7 +38,7 @@ public class InputManager : MonoBehaviour
     private void MoveUnit(GridCell cell, GameUnit unit)
     {
         unitManager.moveUnit(cell, unit);
-        unit.previousGridPos.ToggleOccupation();
+        unit.previousGridPos?.ToggleOccupation();
     }
 
     private GridCell IsMouseOverAGridSpace()
