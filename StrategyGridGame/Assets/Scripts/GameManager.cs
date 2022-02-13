@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameGrid gridPrefab;
-    public GameGrid gridInst { get; private set; }
+    public GameObject gridCellPrefab;
+    public GameGrid gameGrid { get; private set; }
 
     public InputManager inputManager;
 
@@ -30,11 +30,10 @@ public class GameManager : MonoBehaviour
 
     private void InstantiateGrid()
     {
-        gridInst = Instantiate(gridPrefab);
-        gridInst.OnAwake();
+        gameGrid = new GameGrid(10, 10, gridCellPrefab);
 
         //Assign the current game grid to the inputManager and let the user perform actions
-        inputManager.SetGameGrid(gridInst);
+        inputManager.SetGameGrid(gameGrid);
         inputManager.canMove = true; // This is set but never used?
     }
 }

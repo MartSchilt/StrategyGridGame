@@ -23,7 +23,7 @@ public class UnitManager : MonoBehaviour
         // This should not be coded like this
         yield return new WaitForSeconds(1f); // Need to wait for the grid to spawn in
 
-        gameGrid = GameManager.GetInstance().gridInst;
+        gameGrid = GameManager.GetInstance().gameGrid;
 
         gameUnits = new GameUnit[existingUnits.Length];
         for (int i = 0; i < existingUnits.Length; i++)

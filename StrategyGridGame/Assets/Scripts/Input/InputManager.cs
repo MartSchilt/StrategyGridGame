@@ -13,7 +13,7 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        if (gameGrid)
+        if (gameGrid != null)
         {
             // Left mouse click
             if (Input.GetMouseButtonDown(0))
@@ -47,7 +47,7 @@ public class InputManager : MonoBehaviour
 
     public void SetGameGrid(GameGrid grid)
     {
-        if (!gameGrid)
+        if (gameGrid == null)
         {
             gameGrid = grid;
         }
