@@ -8,4 +8,10 @@ public class GameUnit : GridObject
 
     public GridCell currentGridPos;
     public GridCell previousGridPos;
+
+    public void MoveTo()
+    {
+        // state = unitstate.moving
+
+    }
 }

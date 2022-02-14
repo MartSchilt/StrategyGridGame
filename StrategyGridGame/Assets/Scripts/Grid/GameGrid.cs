@@ -9,8 +9,9 @@ public class GameGrid
     private GameObject gridCellPrefab;
     private GameObject[,] grid;
 
-    public int height { get; set; }
-    public int width { get; set; }
+    public Pathfinding pathFinding { get; private set; }
+    public int height { get; private set; }
+    public int width { get; private set; }
 
     public GameGrid(int height, int width, GameObject gridCellPrefab)
     {
@@ -19,6 +20,7 @@ public class GameGrid
         this.gridCellPrefab = gridCellPrefab;
 
         CreateGrid();
+        pathFinding = new Pathfinding(this);
     }
 
     /// <summary>
@@ -41,11 +43,27 @@ public class GameGrid
                 {
                     grid[x, z] = GameManager.Instantiate(gridCellPrefab, new Vector3(x * gridSpaceSize, 0, z * gridSpaceSize), Quaternion.identity);
                     grid[x, z].GetComponent<GridCell>().SetPosition(new Vector2Int(x, z));
+                    // This was the animation but needs to be done differently now
                     // grid[x, z].transform.parent = transform;
                     grid[x, z].gameObject.name = $"Grid Cell ({x}, {z})";
 
                     // yield return new WaitForSeconds(0.02f);
                 }
+            }
+        }
+    }
+
+    public void SetCellGCosts()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int z = 0; z < height; z++)
+            {
+                GridCell gridCell = GetGridCellFromWorldPos(x, z);
+                gridCell.gCost = 99999999;
+                gridCell.CalculateFCost();
+                gridCell.parentCell = null;
+                gridCell.CalculateNeighbours();
             }
         }
     }

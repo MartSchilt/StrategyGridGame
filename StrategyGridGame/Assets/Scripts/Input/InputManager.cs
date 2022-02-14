@@ -58,7 +58,6 @@ public class InputManager : MonoBehaviour
         if (unit != null)
         {
             unitManager.moveUnit(cell, unit);
-            unit.previousGridPos?.ToggleOccupation();
         }
     }
 

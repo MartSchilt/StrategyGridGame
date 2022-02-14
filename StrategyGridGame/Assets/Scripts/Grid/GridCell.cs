@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GridCell : MonoBehaviour
 {
-    private int x, z;
+    public int x, z;
     private int posX, posZ;
     private GameGrid gameGrid;
     private bool diagonallyWalkable;
@@ -13,6 +13,7 @@ public class GridCell : MonoBehaviour
     public GridObject objectInThisGrid = null;
     public bool isOccupied;
     public int fCost, gCost, hCost;
+    public GridCell parentCell;
     public List<GridCell> neighbourList;
 
     public GridCell (GameGrid grid, int x, int z)
