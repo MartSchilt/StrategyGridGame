@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameGrid
 {
-    private float gridSpaceSize = 10f;
+    public float gridSpaceSize { get; private set; }
 
     private GameObject gridCellPrefab;
     private GameObject[,] grid;
@@ -18,6 +18,7 @@ public class GameGrid
         this.height = height;
         this.width = width;
         this.gridCellPrefab = gridCellPrefab;
+        gridSpaceSize = 10f;
 
         CreateGrid();
         pathFinding = new Pathfinding(this);
@@ -43,6 +44,7 @@ public class GameGrid
                 {
                     grid[x, z] = GameManager.Instantiate(gridCellPrefab, new Vector3(x * gridSpaceSize, 0, z * gridSpaceSize), Quaternion.identity);
                     grid[x, z].GetComponent<GridCell>().SetPosition(new Vector2Int(x, z));
+                    grid[x, z].GetComponent<GridCell>().gameGrid = this;
                     // This was the animation but needs to be done differently now
                     // grid[x, z].transform.parent = transform;
                     grid[x, z].gameObject.name = $"Grid Cell ({x}, {z})";
@@ -59,7 +61,7 @@ public class GameGrid
         {
             for (int z = 0; z < height; z++)
             {
-                GridCell gridCell = GetGridCellFromWorldPos(x, z);
+                GridCell gridCell = GetGridCell(x, z);
                 gridCell.gCost = 99999999;
                 gridCell.CalculateFCost();
                 gridCell.parentCell = null;
@@ -95,6 +97,11 @@ public class GameGrid
 
     public GridCell GetGridCellFromWorldPos(int x, int z)
     {
-        return GetGridCellFromWorldPos(new Vector3(x, 0, z));
+        return GetGridCellFromWorldPos(new Vector3(x, z));
+    }
+
+    public GridCell GetGridCell(int x, int z)
+    {
+        return grid[x, z].GetComponent<GridCell>();
     }
 }

@@ -38,7 +38,12 @@ public class InputManager : MonoBehaviour
                 {
                     if (!hoveringCell.isOccupied)
                     {
-                        MoveUnit(hoveringCell, unitManager.currentlySelectedUnit);
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        // Increase the maxDistance if necessary
+                        if (Physics.Raycast(ray, out RaycastHit hitInfo))
+                        {
+                            unitManager.moveUnit(hitInfo.point, unitManager.currentlySelectedUnit);
+                        }
                     }
                 }
             }

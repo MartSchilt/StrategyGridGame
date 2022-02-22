@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +10,20 @@ public class GameUnit : GridObject
     public GridCell currentGridPos;
     public GridCell previousGridPos;
 
-    public void MoveTo()
+    private MoveManager moveManager;
+
+    private void Awake()
+    {
+        moveManager = GetComponent<MoveManager>();
+    }
+
+    public void MoveTo(Vector3 targetPos, Action onReachedPosition)
     {
         // state = unitstate.moving
-
+        moveManager.SetMovePosition(targetPos, () =>
+        {
+            // state = unitstate.idle
+            onReachedPosition();
+        });
     }
 }

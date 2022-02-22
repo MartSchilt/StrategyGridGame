@@ -16,7 +16,7 @@ public class Pathfinding
 
     public Pathfinding(GameGrid gameGrid)
     {
-        _instance = GetInstance();
+        _instance = this;
         grid = gameGrid;
     }
 
@@ -49,6 +49,9 @@ public class Pathfinding
             GridCell currentCell = GetLowestFCostNode(openList);
             if (currentCell == endCell) return CalculatePath(endCell);
 
+            openList.Remove(currentCell);
+            closedList.Add(currentCell);
+
             foreach (GridCell neighbourCell in currentCell.neighbourList)
             {
                 // Skip a cell if it is occupied
@@ -76,10 +79,29 @@ public class Pathfinding
         return null;
     }
 
+    // Added this override function for ease of use with world coords instead of cells
+    public List<Vector3> FindPath(Vector3 startPos, Vector3 endPos)
+    {
+        GridCell startCell = grid.GetGridCellFromWorldPos(startPos);
+        GridCell endCell = grid.GetGridCellFromWorldPos(endPos);
+
+        List<GridCell> path = FindPath(startCell, endCell);
+
+        if (path == null) return null;
+
+        List<Vector3> vectorPath = new List<Vector3>();
+        foreach (GridCell cell in path)
+        {
+            // Just do some magical conversion
+            vectorPath.Add(new Vector3(cell.GetPosition().x, 0, cell.GetPosition().y) * grid.gridSpaceSize + Vector3.one * grid.gridSpaceSize * .5f);
+        }
+        return vectorPath;
+    }
+
     private int CalculateDistanceCost(GridCell a, GridCell b)
     {
-        int xDistance = Mathf.Abs(a.x - b.x);
-        int zDistance = Mathf.Abs(a.z - b.z);
+        int xDistance = Mathf.Abs(a.GetPosition().x - b.GetPosition().x);
+        int zDistance = Mathf.Abs(a.GetPosition().y - b.GetPosition().y);
         int remaining = Mathf.Abs(xDistance - zDistance);
         return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance) + MOVE_STRAIGHT_COST * remaining;
     }

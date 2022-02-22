@@ -63,8 +63,11 @@ public class UnitManager : MonoBehaviour
 
         Vector3 gridPos = cell.transform.position;
 
-        //Magic number for now, should be relative to height of terrain mesh
-        unit.transform.position = gridPos + new Vector3(0, 10, 0);
-        return;
+        unit.MoveTo(gridPos, () => {/* Empty Action for now */});
+    }
+
+    public void moveUnit(Vector3 worldPos, GameUnit unit)
+    {
+        unit.MoveTo(worldPos, () => {/* Empty Action for now */});
     }
 }
