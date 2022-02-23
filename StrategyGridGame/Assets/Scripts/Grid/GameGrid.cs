@@ -18,7 +18,7 @@ public class GameGrid
         this.height = height;
         this.width = width;
         this.gridCellPrefab = gridCellPrefab;
-        gridSpaceSize = 10f;
+        gridSpaceSize = 11f;
 
         CreateGrid();
         pathFinding = new Pathfinding(this);

@@ -93,7 +93,7 @@ public class Pathfinding
         foreach (GridCell cell in path)
         {
             // Just do some magical conversion
-            vectorPath.Add(new Vector3(cell.GetPosition().x, 0, cell.GetPosition().y) * grid.gridSpaceSize + Vector3.one * grid.gridSpaceSize * .5f);
+            vectorPath.Add(new Vector3(cell.GetPosition().x, 0, cell.GetPosition().y) * grid.gridSpaceSize);
         }
         return vectorPath;
     }

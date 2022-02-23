@@ -11,7 +11,7 @@ public interface IMoveVelocity
 
 public class MoveTransformVelocity : MonoBehaviour, IMoveVelocity
 {
-    [SerializeField] private float moveSpeed;
+    private float moveSpeed;
     private GameUnit unit;
     private Vector3 velocityVector;
 
@@ -19,6 +19,7 @@ public class MoveTransformVelocity : MonoBehaviour, IMoveVelocity
     void Awake()
     {
         unit = GetComponent<GameUnit>();
+        moveSpeed = 20f;
     }
 
     // Update is called once per frame

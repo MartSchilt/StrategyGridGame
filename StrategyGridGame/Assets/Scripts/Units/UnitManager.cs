@@ -33,10 +33,10 @@ public class UnitManager : MonoBehaviour
             gameUnits[i] = gameUnit;
 
             //Place them next to each other, for now
-            Vector3 position = new Vector3(i * 10, 0, 0);
+            Vector3 position = new Vector3(i * gameGrid.gridSpaceSize, 0, 0);
             // Manually adding 10 to the y so the unit is above the grid and visible
             // Should be changed
-            gameUnit.transform.position = position + new Vector3(0, 10, 0); 
+            gameUnit.transform.position = position; //+ new Vector3(0, 10, 0); 
 
             gameUnit.currentGridPos = gameGrid.GetGridCellFromWorldPos(position);
             gameUnit.currentGridPos.ToggleOccupation();

@@ -15,6 +15,7 @@ public class GameUnit : GridObject
     private void Awake()
     {
         moveManager = GetComponent<MoveManager>();
+        moveManager.enabled = true;
     }
 
     public void MoveTo(Vector3 targetPos, Action onReachedPosition)
