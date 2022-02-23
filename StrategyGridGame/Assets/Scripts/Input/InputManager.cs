@@ -36,14 +36,10 @@ public class InputManager : MonoBehaviour
                 GridCell hoveringCell = IsMouseOverAGridSpace();
                 if (hoveringCell)
                 {
+                    hoveringCell.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
                     if (!hoveringCell.isOccupied)
                     {
-                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                        // Increase the maxDistance if necessary
-                        if (Physics.Raycast(ray, out RaycastHit hitInfo))
-                        {
-                            unitManager.moveUnit(hitInfo.point, unitManager.currentlySelectedUnit);
-                        }
+                        MoveUnit(hoveringCell, unitManager.currentlySelectedUnit);
                     }
                 }
             }

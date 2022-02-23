@@ -73,7 +73,7 @@ public class GameGrid
     public Vector2Int GetGridPosFromWorld(Vector3 worldPosition)
     {
         int x = Mathf.FloorToInt(worldPosition.x / gridSpaceSize);
-        int z = Mathf.FloorToInt(worldPosition.y / gridSpaceSize);
+        int z = Mathf.FloorToInt(worldPosition.z / gridSpaceSize);
 
         x = Mathf.Clamp(x, 0, width);
         z = Mathf.Clamp(z, 0, height);
@@ -92,7 +92,7 @@ public class GameGrid
     public GridCell GetGridCellFromWorldPos(Vector3 worldPosition)
     {
         Vector2Int gridPos = GetGridPosFromWorld(worldPosition);
-        return grid[gridPos.x, gridPos.y].GetComponent<GridCell>();
+        return GetGridCell(gridPos.x, gridPos.y);
     }
 
     public GridCell GetGridCellFromWorldPos(int x, int z)
