@@ -72,8 +72,8 @@ public class GameGrid
 
     public Vector2Int GetGridPosFromWorld(Vector3 worldPosition)
     {
-        int x = Mathf.FloorToInt(worldPosition.x / gridSpaceSize);
-        int z = Mathf.FloorToInt(worldPosition.z / gridSpaceSize);
+        int x = Mathf.FloorToInt(Mathf.Round(worldPosition.x) / gridSpaceSize);
+        int z = Mathf.FloorToInt(Mathf.Round(worldPosition.z) / gridSpaceSize);
 
         x = Mathf.Clamp(x, 0, width);
         z = Mathf.Clamp(z, 0, height);

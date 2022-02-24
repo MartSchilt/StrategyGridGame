@@ -50,6 +50,11 @@ public class UnitManager : MonoBehaviour
 
     public void moveUnit(GridCell cell, GameUnit unit)
     {
+        // First calculate the path for the given unit
+        Vector3 gridPos = cell.transform.position;
+        unit.MoveTo(gridPos, () => {/* Empty Action for now */});
+
+        // Then change occupation of the gridcells
         if (unit.currentGridPos)
         {
             unit.previousGridPos = unit.currentGridPos;
@@ -60,10 +65,6 @@ public class UnitManager : MonoBehaviour
         unit.currentGridPos = cell;
         cell.ToggleOccupation();
         cell.objectInThisGrid = unit;
-
-        Vector3 gridPos = cell.transform.position;
-
-        unit.MoveTo(gridPos, () => {/* Empty Action for now */});
     }
 
     public void moveUnit(Vector3 worldPos, GameUnit unit)
