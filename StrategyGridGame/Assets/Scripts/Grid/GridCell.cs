@@ -15,6 +15,7 @@ public class GridCell : MonoBehaviour
     public int fCost, gCost, hCost;
     public GridCell parentCell;
     public List<GridCell> neighbourList;
+    public bool validMovePosition = false;
 
     public void SetPosition(Vector2Int pos)
     {

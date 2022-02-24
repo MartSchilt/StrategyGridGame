@@ -27,6 +27,13 @@ public class Pathfinding
         return _instance;
     }
 
+    public List<GridCell> FindPath(int startX, int startZ, int endX, int endZ)
+    {
+        GridCell startCell = grid.GetGridCell(startX, startZ);
+        GridCell endCell = grid.GetGridCell(endX, endZ);
+        return FindPath(startCell, endCell);
+    }
+
     public List<GridCell> FindPath(GridCell startCell, GridCell endCell)
     {
         if (startCell == null || endCell == null)

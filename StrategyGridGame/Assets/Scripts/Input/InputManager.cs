@@ -58,7 +58,7 @@ public class InputManager : MonoBehaviour
     {
         if (unit != null)
         {
-            unitManager.moveUnit(cell, unit);
+            unitManager.MoveUnit(cell, unit);
         }
     }
 

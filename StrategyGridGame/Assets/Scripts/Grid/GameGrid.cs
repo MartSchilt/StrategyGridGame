@@ -104,4 +104,10 @@ public class GameGrid
     {
         return grid[x, z].GetComponent<GridCell>();
     }
+
+    public bool CellIsOccupied(int x, int z)
+    {
+        GridCell cell = GetGridCell(x, z);
+        return cell.isOccupied;
+    }
 }

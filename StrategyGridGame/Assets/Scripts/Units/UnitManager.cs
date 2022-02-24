@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -48,27 +49,62 @@ public class UnitManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f); // Need to wait for the grid to spawn in
     }
 
-    public void moveUnit(GridCell cell, GameUnit unit)
+    public void MoveUnit(GridCell cell, GameUnit unit)
     {
         // First calculate the path for the given unit
         Vector3 gridPos = cell.transform.position;
-        unit.MoveTo(gridPos, () => {/* Empty Action for now */});
-
-        // Then change occupation of the gridcells
-        if (unit.currentGridPos)
+        unit.MoveTo(gridPos, () =>
         {
-            unit.previousGridPos = unit.currentGridPos;
-            unit.previousGridPos.objectInThisGrid = null;
-            unit.previousGridPos.ToggleOccupation();
-        }
+            // Change occupation of the gridcells after moving the unit
+            if (unit.currentGridPos)
+            {
+                unit.previousGridPos = unit.currentGridPos;
+                unit.previousGridPos.objectInThisGrid = null;
+                unit.previousGridPos.ToggleOccupation();
+            }
 
-        unit.currentGridPos = cell;
-        cell.ToggleOccupation();
-        cell.objectInThisGrid = unit;
+            unit.currentGridPos = cell;
+            cell.ToggleOccupation();
+            cell.objectInThisGrid = unit;
+        });
     }
 
-    public void moveUnit(Vector3 worldPos, GameUnit unit)
+    // Should be called at the end of units turn
+    private void UpdateMovementGrid()
     {
-        unit.MoveTo(worldPos, () => {/* Empty Action for now */});
+        // Ensure the grid is not null
+        gameGrid = GameManager.GetInstance().gameGrid;
+
+        GridCell cell = currentlySelectedUnit.currentGridPos;
+        Vector3 unitPosition = gameGrid.GetWorldPosFromGridPos(cell.GetPosition());
+        int unitX = Mathf.RoundToInt(unitPosition.x);
+        int unitZ = Mathf.RoundToInt(unitPosition.z);
+
+        for (int x = 0; x < gameGrid.width; x++)
+        {
+            for (int z = 0; z < gameGrid.height; z++)
+            {
+                // TODO: remove sprite 
+                cell.validMovePosition = false;
+            }
+        }
+
+        int maxMoveDistance = currentlySelectedUnit.thisUnit.movementRange;
+        for (int x = unitX - maxMoveDistance; x <= unitX + maxMoveDistance; x++)
+        {
+            for (int z = unitZ - maxMoveDistance; z <= unitZ + maxMoveDistance; z++)
+            {
+                if (!gameGrid.CellIsOccupied(x, z))
+                {
+                    // Check if gridCell is in range of the unit
+                    if (gameGrid.pathFinding.FindPath(unitX, unitZ, x, z).Count <= maxMoveDistance)
+                    {
+                        // TODO: add sprite
+                        gameGrid.GetGridCell(x, z).validMovePosition = true;
+                    } 
+                }
+            }
+        }
+
     }
 }
