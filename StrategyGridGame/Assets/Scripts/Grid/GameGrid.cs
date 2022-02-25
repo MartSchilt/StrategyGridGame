@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -109,5 +110,10 @@ public class GameGrid
     {
         GridCell cell = GetGridCell(x, z);
         return cell.isOccupied;
+    }
+
+    internal bool CellExists(int x, int z)
+    {
+        return (x < width && x >= 0 && z < height && z >= 0);
     }
 }

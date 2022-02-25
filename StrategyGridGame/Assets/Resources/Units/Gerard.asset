@@ -16,3 +16,4 @@ MonoBehaviour:
   health: 999
   attack: 999
   speed: 99
+  movementRange: 8

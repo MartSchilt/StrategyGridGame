@@ -35,9 +35,7 @@ public class UnitManager : MonoBehaviour
 
             //Place them next to each other, for now
             Vector3 position = new Vector3(i * gameGrid.gridSpaceSize, 0, 0);
-            // Manually adding 10 to the y so the unit is above the grid and visible
-            // Should be changed
-            gameUnit.transform.position = position; //+ new Vector3(0, 10, 0); 
+            gameUnit.transform.position = position;
 
             gameUnit.currentGridPos = gameGrid.GetGridCellFromWorldPos(position);
             gameUnit.currentGridPos.ToggleOccupation();
@@ -46,65 +44,74 @@ public class UnitManager : MonoBehaviour
 
         //Set selected unit as the first for now
         currentlySelectedUnit = gameUnits[0];
-        yield return new WaitForSeconds(0.5f); // Need to wait for the grid to spawn in
+        UpdateMovementGrid();
     }
 
     public void MoveUnit(GridCell cell, GameUnit unit)
     {
         // First calculate the path for the given unit
         Vector3 gridPos = cell.transform.position;
-        unit.MoveTo(gridPos, () =>
+        if (gameGrid.pathFinding.PathInRange(gameGrid.GetWorldPosFromGridPos(unit.currentGridPos.GetPosition()), gridPos, unit.thisUnit.movementRange))
         {
-            // Change occupation of the gridcells after moving the unit
-            if (unit.currentGridPos)
+            cell.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
+            unit.MoveTo(gridPos, () =>
             {
-                unit.previousGridPos = unit.currentGridPos;
-                unit.previousGridPos.objectInThisGrid = null;
-                unit.previousGridPos.ToggleOccupation();
-            }
+                // Change occupation of the gridcells after moving the unit
+                if (unit.currentGridPos)
+                {
+                    unit.previousGridPos = unit.currentGridPos;
+                    unit.previousGridPos.objectInThisGrid = null;
+                    unit.previousGridPos.ToggleOccupation();
+                }
 
-            unit.currentGridPos = cell;
-            cell.ToggleOccupation();
-            cell.objectInThisGrid = unit;
-        });
+                unit.currentGridPos = cell;
+                cell.ToggleOccupation();
+                cell.objectInThisGrid = unit;
+
+                UpdateMovementGrid();
+            });
+        }
     }
 
     // Should be called at the end of units turn
-    private void UpdateMovementGrid()
+    public void UpdateMovementGrid()
     {
         // Ensure the grid is not null
         gameGrid = GameManager.GetInstance().gameGrid;
 
-        GridCell cell = currentlySelectedUnit.currentGridPos;
-        Vector3 unitPosition = gameGrid.GetWorldPosFromGridPos(cell.GetPosition());
-        int unitX = Mathf.RoundToInt(unitPosition.x);
-        int unitZ = Mathf.RoundToInt(unitPosition.z);
+        GridCell unitCell = currentlySelectedUnit.currentGridPos;
+        Vector3 unitPosition = gameGrid.GetWorldPosFromGridPos(unitCell.GetPosition());
+        Vector2Int unitPos = gameGrid.GetGridPosFromWorld(unitPosition);
+
+        GridCell cell;
 
         for (int x = 0; x < gameGrid.width; x++)
-        {
             for (int z = 0; z < gameGrid.height; z++)
             {
-                // TODO: remove sprite 
+                cell = gameGrid.GetGridCell(x, z);
+                cell.GetComponentInChildren<MeshRenderer>().material.color = Color.white;
                 cell.validMovePosition = false;
             }
-        }
 
         int maxMoveDistance = currentlySelectedUnit.thisUnit.movementRange;
-        for (int x = unitX - maxMoveDistance; x <= unitX + maxMoveDistance; x++)
-        {
-            for (int z = unitZ - maxMoveDistance; z <= unitZ + maxMoveDistance; z++)
-            {
-                if (!gameGrid.CellIsOccupied(x, z))
+        for (int x = unitPos.x - maxMoveDistance; x <= unitPos.x + maxMoveDistance; x++)
+            for (int z = unitPos.y - maxMoveDistance; z <= unitPos.y + maxMoveDistance; z++)
+                if (gameGrid.CellExists(x, z))
                 {
-                    // Check if gridCell is in range of the unit
-                    if (gameGrid.pathFinding.FindPath(unitX, unitZ, x, z).Count <= maxMoveDistance)
+                    cell = gameGrid.GetGridCell(x, z);
+                    if (!cell.isOccupied)
                     {
-                        // TODO: add sprite
-                        gameGrid.GetGridCell(x, z).validMovePosition = true;
-                    } 
+                        // Check if gridCell is in range of the unit
+                        if (gameGrid.pathFinding.FindPath(unitCell, cell).Count <= maxMoveDistance)
+                        {
+                            cell.GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
+                            cell.validMovePosition = true;
+                        }
+                    }
                 }
-            }
-        }
 
+        // Force change the colour of the tile under the moving unit
+        unitCell.validMovePosition = false;
+        unitCell.GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
     }
 }

@@ -25,7 +25,7 @@ public class InputManager : MonoBehaviour
                     // Selecting units to move
                     if (hoveringCell.objectInThisGrid is GameUnit)
                     {
-                        unitManager.currentlySelectedUnit = (GameUnit)hoveringCell.objectInThisGrid;
+                        SelectUnit((GameUnit)hoveringCell.objectInThisGrid);
                     }
                 }
             }
@@ -36,7 +36,6 @@ public class InputManager : MonoBehaviour
                 GridCell hoveringCell = IsMouseOverAGridSpace();
                 if (hoveringCell)
                 {
-                    hoveringCell.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
                     if (!hoveringCell.isOccupied)
                     {
                         MoveUnit(hoveringCell, unitManager.currentlySelectedUnit);
@@ -52,6 +51,12 @@ public class InputManager : MonoBehaviour
         {
             gameGrid = grid;
         }
+    }
+
+    private void SelectUnit(GameUnit unit)
+    {
+        unitManager.currentlySelectedUnit = unit;
+        unitManager.UpdateMovementGrid();
     }
 
     private void MoveUnit(GridCell cell, GameUnit unit)

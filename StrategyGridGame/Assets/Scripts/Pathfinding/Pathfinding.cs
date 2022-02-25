@@ -133,4 +133,10 @@ public class Pathfinding
         path.Reverse();
         return path;
     }
+
+    public bool PathInRange(Vector3 startPos, Vector3 endPos, int movementRange)
+    {
+        List<Vector3> path = FindPath(startPos, endPos);
+        return (path.Count <= movementRange);
+    }
 }
