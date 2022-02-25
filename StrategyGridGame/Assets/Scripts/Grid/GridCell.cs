@@ -5,7 +5,7 @@ using UnityEngine;
 public class GridCell : MonoBehaviour
 {
     private int posX, posZ;
-    public GameGrid gameGrid { get; set; }
+    private GameGrid gameGrid { get; set; }
     // Set this to false if you don't want units to be able to move diagonally
     private bool diagonallyWalkable = false;
 
@@ -34,6 +34,11 @@ public class GridCell : MonoBehaviour
     public void CalculateFCost()
     {
         fCost = gCost + hCost;
+    }
+
+    public void SetGameGrid(GameGrid grid)
+    {
+        this.gameGrid = grid;
     }
 
     public void CalculateNeighbours()

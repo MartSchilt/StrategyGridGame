@@ -38,7 +38,7 @@ public class InputManager : MonoBehaviour
                 {
                     if (!hoveringCell.isOccupied)
                     {
-                        MoveUnit(hoveringCell, unitManager.currentlySelectedUnit);
+                        if (!unitManager.unitMoving) MoveUnit(hoveringCell, unitManager.currentlySelectedUnit);
                     }
                 }
             }

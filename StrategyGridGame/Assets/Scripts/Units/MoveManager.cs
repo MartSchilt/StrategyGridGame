@@ -15,7 +15,6 @@ public class MoveManager : MonoBehaviour
         component = GetComponent<IMoveVelocity>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (pathIndex != -1)

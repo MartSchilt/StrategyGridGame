@@ -7,18 +7,20 @@ public class GameGrid
 {
     public float gridSpaceSize { get; private set; }
 
-    private GameObject gridCellPrefab;
-    private GameObject[,] grid;
+    private GridCell gridCellPrefab;
+    private GridCell[,] grid;
+    private Transform cellHolder;
 
     public Pathfinding pathFinding { get; private set; }
     public int height { get; private set; }
     public int width { get; private set; }
 
-    public GameGrid(int height, int width, GameObject gridCellPrefab)
+    public GameGrid(int height, int width, GridCell gridCellPrefab, Transform gridCellParent)
     {
         this.height = height;
         this.width = width;
         this.gridCellPrefab = gridCellPrefab;
+        this.cellHolder = gridCellParent;
         gridSpaceSize = 11f;
 
         CreateGrid();
@@ -30,7 +32,7 @@ public class GameGrid
     /// </summary>
     private void CreateGrid()
     {
-        grid = new GameObject[width, height];
+        grid = new GridCell[width, height];
 
         if (gridCellPrefab == null)
         {
@@ -43,9 +45,10 @@ public class GameGrid
             {
                 for (int x = 0; x < width; x++)
                 {
-                    grid[x, z] = GameManager.Instantiate(gridCellPrefab, new Vector3(x * gridSpaceSize, 0, z * gridSpaceSize), Quaternion.identity);
-                    grid[x, z].GetComponent<GridCell>().SetPosition(new Vector2Int(x, z));
-                    grid[x, z].GetComponent<GridCell>().gameGrid = this;
+                    grid[x, z] = GameManager.Instantiate(gridCellPrefab, new Vector3(x * gridSpaceSize, 0, z * gridSpaceSize), Quaternion.identity, cellHolder);
+                    grid[x, z].SetPosition(new Vector2Int(x, z));
+                    grid[x, z].SetGameGrid(this);
+
                     // This was the animation but needs to be done differently now
                     // grid[x, z].transform.parent = transform;
                     grid[x, z].gameObject.name = $"Grid Cell ({x}, {z})";

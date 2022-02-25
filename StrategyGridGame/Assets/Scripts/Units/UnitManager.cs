@@ -14,16 +14,15 @@ public class UnitManager : MonoBehaviour
 
     [SerializeField] private Transform UnitHolder;
 
+    public bool unitMoving = false;
+
     void Start()
     {
-        StartCoroutine(InstantiateUnits());
+        InstantiateUnits();
     }
 
-    private IEnumerator InstantiateUnits()
+    private void InstantiateUnits()
     {
-        // This should not be coded like this
-        yield return new WaitForSeconds(1f); // Need to wait for the grid to spawn in
-
         gameGrid = GameManager.GetInstance().gameGrid;
 
         gameUnits = new GameUnit[existingUnits.Length];
@@ -53,7 +52,10 @@ public class UnitManager : MonoBehaviour
         Vector3 gridPos = cell.transform.position;
         if (gameGrid.pathFinding.PathInRange(gameGrid.GetWorldPosFromGridPos(unit.currentGridPos.GetPosition()), gridPos, unit.thisUnit.movementRange))
         {
+            unitMoving = true;
+
             cell.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
+
             unit.MoveTo(gridPos, () =>
             {
                 // Change occupation of the gridcells after moving the unit
@@ -112,6 +114,8 @@ public class UnitManager : MonoBehaviour
 
         // Force change the colour of the tile under the moving unit
         unitCell.validMovePosition = false;
-        unitCell.GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
+        unitCell.GetComponentInChildren<MeshRenderer>().material.color = Color.green;
+
+        unitMoving = false;
     }
 }
