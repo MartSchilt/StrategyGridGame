@@ -1,13 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GridCell : MonoBehaviour
 {
     private int posX, posZ;
-    private GameGrid gameGrid { get; set; }
     // Set this to false if you don't want units to be able to move diagonally
     private bool diagonallyWalkable = false;
+    private GameGrid gameGrid { get; set; }
 
     // Saves a reference to the GameObject that gets placed on this cell
     public GridObject objectInThisGrid = null;
@@ -28,9 +27,6 @@ public class GridCell : MonoBehaviour
         return new Vector2Int(posX, posZ);
     }
 
-    /// <summary>
-    /// Calculates the cost for traversing this cell in pathfinding
-    /// </summary>
     public void CalculateFCost()
     {
         fCost = gCost + hCost;

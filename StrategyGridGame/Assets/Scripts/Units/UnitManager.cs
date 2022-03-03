@@ -1,20 +1,16 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class UnitManager : MonoBehaviour
 {
     [SerializeField] private UnitData[] existingUnits;
+    [SerializeField] private Transform UnitHolder;
 
     private GameUnit[] gameUnits;
-    public GameUnit unitPrefab;
     private GameGrid gameGrid;
 
     public GameUnit currentlySelectedUnit { get; set; }
-
-    [SerializeField] private Transform UnitHolder;
-
-    public bool unitMoving = false;
+    public bool unitMoving;
+    public GameUnit unitPrefab;
 
     void Start()
     {

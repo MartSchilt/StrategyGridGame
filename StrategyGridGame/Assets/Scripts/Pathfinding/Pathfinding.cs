@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,10 +7,10 @@ public class Pathfinding
     private const int MOVE_DIAGONAL_COST = 15;
 
     private static Pathfinding _instance;
-
-    public GameGrid grid { get; private set; }
     private List<GridCell> openList;
     private HashSet<GridCell> closedList; //Changed to HashSet for better optimization
+
+    public GameGrid grid { get; private set; }
 
     public Pathfinding(GameGrid gameGrid)
     {

@@ -1,17 +1,13 @@
-using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GridCell gridCellPrefab;
-    public GameGrid gameGrid { get; private set; }
-
-    public Transform cellHolder;
-
-    public InputManager inputManager;
-
-
     private static GameManager _instance;
+
+    public GameGrid gameGrid { get; private set; }
+    public GridCell gridCellPrefab;
+    public Transform cellHolder;
+    public InputManager inputManager;
 
     public static GameManager GetInstance()
     {
@@ -29,10 +25,10 @@ public class GameManager : MonoBehaviour
 
     private void InstantiateGrid()
     {
-        gameGrid = new GameGrid(10, 10, gridCellPrefab, cellHolder);
+        gameGrid = new GameGrid(10, 10, 11f, gridCellPrefab, cellHolder);
 
-        //Assign the current game grid to the inputManager and let the user perform actions
+        // Assign the current game grid to the inputManager and let the user be able to perform actions
         inputManager.SetGameGrid(gameGrid);
-        inputManager.canMove = true; // This is set but never used?
+        inputManager.canMove = true;
     }
 }

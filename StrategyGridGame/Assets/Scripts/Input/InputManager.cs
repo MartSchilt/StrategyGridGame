@@ -2,13 +2,12 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    [SerializeField] private LayerMask gridCellLayer;
+
     private GameGrid gameGrid;
 
     //For now, a reference to the unitmanager to get the current unit. should probably be a reference to a TeamManager instead.
     public UnitManager unitManager;
-
-    [SerializeField] private LayerMask gridCellLayer;
-
     public bool canMove { get; set; }
 
     void Update()
@@ -23,10 +22,7 @@ public class InputManager : MonoBehaviour
                 if (hoveringCell)
                 {
                     // Selecting units to move
-                    if (hoveringCell.objectInThisGrid is GameUnit)
-                    {
-                        SelectUnit((GameUnit)hoveringCell.objectInThisGrid);
-                    }
+                    if (hoveringCell.objectInThisGrid is GameUnit) SelectUnit((GameUnit)hoveringCell.objectInThisGrid);
                 }
             }
 
@@ -47,10 +43,7 @@ public class InputManager : MonoBehaviour
 
     public void SetGameGrid(GameGrid grid)
     {
-        if (gameGrid == null)
-        {
-            gameGrid = grid;
-        }
+        if (gameGrid == null) gameGrid = grid;
     }
 
     private void SelectUnit(GameUnit unit)
@@ -61,20 +54,15 @@ public class InputManager : MonoBehaviour
 
     private void MoveUnit(GridCell cell, GameUnit unit)
     {
-        if (unit != null)
-        {
-            unitManager.MoveUnit(cell, unit);
-        }
+        if (unit != null) unitManager.MoveUnit(cell, unit);
     }
 
     private GridCell IsMouseOverAGridSpace()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         // Increase the maxDistance if necessary
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, gridCellLayer))
-        {
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, gridCellLayer)) 
             return hitInfo.transform.GetComponent<GridCell>();
-        }
         
         return null;
     }
