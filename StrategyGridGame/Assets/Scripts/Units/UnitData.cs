@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Unit Data", menuName = "Unit Data")]
@@ -13,6 +11,8 @@ public class UnitData : ScriptableObject
     private int currentHealth;
     [SerializeField] private int attack;
     [SerializeField] private int speed;
+    // TODO: change this to private and use it correctly
+    [SerializeField] public int movementRange;
 
     /*[Header("Equippables")]*/
 }
