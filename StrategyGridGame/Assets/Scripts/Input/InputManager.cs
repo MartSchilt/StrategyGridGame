@@ -6,9 +6,13 @@ public class InputManager : MonoBehaviour
 
     private GameGrid gameGrid;
 
-    //For now, a reference to the unitmanager to get the current unit. should probably be a reference to a TeamManager instead.
-    public UnitManager unitManager;
+    public TurnManager turnManager;
     public bool canMove { get; set; }
+
+    private void Start()
+    {
+        gameGrid = GameManager.GetInstance().gameGrid;
+    }
 
     void Update()
     {
@@ -34,27 +38,22 @@ public class InputManager : MonoBehaviour
                 {
                     if (!hoveringCell.isOccupied)
                     {
-                        if (!unitManager.unitMoving) MoveUnit(hoveringCell, unitManager.currentlySelectedUnit);
+                        if (!turnManager.currentTeam.teamUnitManagerInst.unitMoving) MoveUnit(hoveringCell, turnManager.currentTeam.teamUnitManagerInst.currentlySelectedUnit);
                     }
                 }
             }
-        }
-    }
-
-    public void SetGameGrid(GameGrid grid)
-    {
-        if (gameGrid == null) gameGrid = grid;
+        } else gameGrid = GameManager.GetInstance().gameGrid;
     }
 
     private void SelectUnit(GameUnit unit)
     {
-        unitManager.currentlySelectedUnit = unit;
-        unitManager.UpdateMovementGrid();
+        turnManager.currentTeam.teamUnitManagerInst.currentlySelectedUnit = unit;
+        turnManager.currentTeam.teamUnitManagerInst.UpdateMovementGrid();
     }
 
     private void MoveUnit(GridCell cell, GameUnit unit)
     {
-        if (unit != null) unitManager.MoveUnit(cell, unit);
+        if (unit != null) turnManager.currentTeam.teamUnitManagerInst.MoveUnit(cell, unit);
     }
 
     private GridCell IsMouseOverAGridSpace()

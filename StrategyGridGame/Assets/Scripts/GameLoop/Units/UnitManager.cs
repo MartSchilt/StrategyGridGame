@@ -2,40 +2,15 @@ using UnityEngine;
 
 public class UnitManager : MonoBehaviour
 {
-    [SerializeField] private UnitData[] existingUnits;
-    [SerializeField] private Transform UnitHolder;
-
     private GameUnit[] gameUnits;
     private GameGrid gameGrid;
 
     public GameUnit currentlySelectedUnit { get; set; }
     public bool unitMoving;
-    public GameUnit unitPrefab;
 
-    void Start()
+    public void SetUnits(GameUnit[] units)
     {
-        InstantiateUnits();
-    }
-
-    private void InstantiateUnits()
-    {
-        gameGrid = GameManager.GetInstance().gameGrid;
-
-        gameUnits = new GameUnit[existingUnits.Length];
-        for (int i = 0; i < existingUnits.Length; i++)
-        {
-            var gameUnit = Instantiate(unitPrefab, UnitHolder);
-            gameUnit.thisUnit = existingUnits[i];
-            gameUnits[i] = gameUnit;
-
-            //Place them next to each other, for now
-            Vector3 position = new Vector3(i * gameGrid.gridSpaceSize, 0, 0);
-            gameUnit.transform.position = position;
-
-            gameUnit.currentGridPos = gameGrid.GetGridCellFromWorldPos(position);
-            gameUnit.currentGridPos.ToggleOccupation();
-            gameUnit.currentGridPos.objectInThisGrid = gameUnit;
-        }
+        gameUnits = units;
 
         //Set selected unit as the first for now
         currentlySelectedUnit = gameUnits[0];
